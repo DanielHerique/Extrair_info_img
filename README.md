@@ -75,6 +75,5 @@ Clica no botão "Extrair para Markdown".
 O programa renderiza cada página, extrai o conteúdo principal, limpa os elementos irrelevantes e salva o resultado em arquivos .md na pasta escolhida.
 Ao final, uma mensagem de sucesso ou erro é exibida, e o usuário pode acessar o histórico de extrações da sessão.
 ![falha](https://github.com/user-attachments/assets/49d30a32-8b7e-45c9-b46d-49c17da58b1a)
-![sucesso](https://github.com/user-attachments/assets/481cfdd3-297e-441c-bd38-bfa5c8444cb2)
-
+![sucesso](https://github.com/user-attachments/assets/879003da-7630-4396-b595-7d6d45af23ff)
 
