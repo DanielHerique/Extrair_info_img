@@ -1,4 +1,4 @@
-### 🌐 Extrator de Páginas para Markdown
+# 🌐 Extrator de Páginas para Markdown
 
 ## 📝 Descrição do Projeto
 O Extrator de Páginas para Markdown é um aplicativo desktop robusto, construído em Python, projetado para simplificar a captura e organização de conteúdo web. Ele permite aos usuários extrair o conteúdo principal de páginas da web (HTML) e convertê-lo automaticamente para o formato Markdown (.md), pronto para ser salvo localmente em seu computador.
