@@ -1,42 +1,77 @@
+🌐 Extrator de Páginas para Markdown
 📝 Descrição do Projeto
-Extrator de Páginas para Markdown é um aplicativo desktop com interface gráfica desenvolvido em Python que permite ao usuário extrair o conteúdo principal de páginas da web (HTML) e convertê-lo automaticamente para o formato Markdown (.md), pronto para ser salvo localmente.
+O Extrator de Páginas para Markdown é um aplicativo desktop robusto, construído em Python, projetado para simplificar a captura e organização de conteúdo web. Ele permite aos usuários extrair o conteúdo principal de páginas da web (HTML) e convertê-lo automaticamente para o formato Markdown (.md), pronto para ser salvo localmente em seu computador.
 
-O sistema utiliza Selenium WebDriver para renderizar páginas com JavaScript, processa o HTML com BeautifulSoup, e converte o conteúdo em Markdown com a biblioteca markdownify. A interface gráfica foi criada com Tkinter, permitindo fácil uso mesmo para usuários sem conhecimento técnico.
+Com uma interface gráfica intuitiva, mesmo usuários sem conhecimento técnico podem navegar e utilizar a ferramenta com facilidade, tornando a transformação de páginas web em documentos Markdown uma tarefa rápida e eficiente.
 
-💡 Funcionalidades
-Interface gráfica simples e intuitiva.
+✨ Funcionalidades Principais
+Interface Gráfica (GUI) Intuitiva: Desenvolvida com Tkinter, oferece uma experiência de usuário simples e amigável.
+Extração Múltipla de URLs: Aceita várias URLs simultaneamente, bastando inseri-las uma por linha no campo de entrada.
+Limpeza Inteligente de Conteúdo: Remove automaticamente elementos irrelevantes de páginas web, como <header>, <footer>, <nav>, <script> e <style>, focando no conteúdo essencial.
+Conversão para Markdown: Transforma o HTML extraído em arquivos Markdown bem formatados, prontos para uso.
+Correção de Links de Imagens: Ajusta automaticamente os links de imagens para URLs absolutas, garantindo que as imagens sejam carregadas corretamente no Markdown.
+Seleção de Pasta de Destino: Permite ao usuário escolher facilmente a pasta onde os arquivos Markdown gerados serão salvos.
+Feedback de Processamento: Fornece indicações claras de sucesso ou erro ao final de cada extração, mantendo o usuário informado.
+Histórico de Extrações da Sessão: Acompanha as extrações realizadas durante a sessão atual, permitindo revisitar URLs e caminhos de arquivo.
+🚀 Tecnologias Utilizadas
+Este projeto foi construído utilizando as seguintes tecnologias e bibliotecas Python:
 
-Aceita múltiplas URLs ao mesmo tempo (uma por linha).
+Python 3.13: Linguagem de programação principal.
+Selenium WebDriver: Utilizado para renderizar páginas web, incluindo aquelas que dependem de JavaScript para carregar o conteúdo dinamicamente.
+BeautifulSoup4: Para parsear o HTML e facilitar a navegação e manipulação da estrutura da página.
+markdownify: Biblioteca essencial para converter o HTML limpo em conteúdo Markdown.
+Tkinter: Framework padrão do Python para criação de interfaces gráficas.
+Pillow (PIL): Usada para manipulação de imagens, como carregar a logo do aplicativo.
+Módulos Nativos: re (expressões regulares), urllib.parse (análise de URLs), os (interação com o sistema operacional) e time (controle de tempo).
+🛠️ Como Instalar e Rodar
+Siga os passos abaixo para configurar e executar o Extrator de Páginas para Markdown em sua máquina:
 
-Remove automaticamente elementos irrelevantes da página (como <header>, <footer>, <script>, etc.).
+Pré-requisitos
+Python 3.x (versão 3.13 ou superior recomendada).
+ChromeDriver: O Selenium WebDriver exige que você tenha o ChromeDriver compatível com a sua versão do Google Chrome instalado e acessível no seu PATH do sistema, ou no mesmo diretório do script. Você pode baixá-lo aqui.
+Instalação
+Clone o Repositório (ou baixe o ZIP):
+Bash
 
-Converte o conteúdo extraído em arquivos Markdown formatados.
+git clone https://github.com/SEU_USUARIO/SEU_REPOSITORIO.git
+cd SEU_REPOSITORIO
+Crie e Ative um Ambiente Virtual (recomendado):
+Bash
 
-Corrige os links de imagens para URLs absolutas.
+python -m venv venv
+# No Windows:
+.\venv\Scripts\activate
+# No macOS/Linux:
+source venv/bin/activate
+Instale as Dependências:
+Bash
 
-Permite escolher a pasta de destino dos arquivos gerados.
-
-Indica erros e sucessos ao final da extração.
-
-🚀 Tecnologias utilizadas
-Python 3.13
-
-Selenium
-
-BeautifulSoup4
-
+pip install -r requirements.txt
+(Você precisará criar um arquivo requirements.txt com as dependências listadas abaixo)
+Conteúdo para requirements.txt
+selenium
+beautifulsoup4
 markdownify
+Pillow
+Executando o Aplicativo
+Coloque a Logo (Opcional): Se você deseja usar sua logo personalizada, certifique-se de que o arquivo conversu_logo.png esteja na mesma pasta do script principal, e atualize a variável CAMINHO_LOGO_PERSONALIZADA no código, se necessário.
+Execute o Script:
+Bash
 
-Tkinter (GUI)
-
-re, urllib, os, time
-
-📸 Exemplo de uso
-O usuário insere uma ou várias URLs no campo de entrada.
-
-Escolhe uma pasta de destino para salvar os arquivos.
-
+python seu_script_principal.py
+(Substitua seu_script_principal.py pelo nome do seu arquivo Python principal)
+📸 Exemplo de Uso
+O usuário inicia o aplicativo.
+No campo de entrada, cola uma ou várias URLs (uma por linha).
 Clica no botão "Extrair para Markdown".
-
-O programa renderiza a página, extrai o conteúdo principal e salva em arquivos .md.
-
+É solicitada a escolha de uma pasta de destino para salvar os arquivos.
+O programa renderiza cada página, extrai o conteúdo principal, limpa os elementos irrelevantes e salva o resultado em arquivos .md na pasta escolhida.
+Ao final, uma mensagem de sucesso ou erro é exibida, e o usuário pode acessar o histórico de extrações da sessão.
+O que foi melhorado:
+Estrutura Clara: Uso de títulos e subtítulos para organizar as informações, facilitando a leitura.
+Seções Padrão de README: Adição de "Como Instalar e Rodar" com subseções de "Pré-requisitos" e "Instalação", e a sugestão de um requirements.txt.
+Mais Detalhes: Explicado um pouco mais sobre o papel de cada tecnologia (ex: Selenium para JavaScript, BeautifulSoup para HTML).
+Chamada para Ação: Instruções claras sobre como rodar o aplicativo.
+Polimento da Linguagem: Ajustes de vocabulário para um tom mais profissional e descritivo.
+Destaque: Uso de negritos para realçar termos-chave.
+Lembre-se de substituir SEU_USUARIO e SEU_REPOSITORIO no link de clonagem e também seu_script_principal.py pelo nome real do seu arquivo principal!
