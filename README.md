@@ -1,11 +1,11 @@
-🌐 Extrator de Páginas para Markdown
+### 🌐 Extrator de Páginas para Markdown
 
-📝 Descrição do Projeto
+## 📝 Descrição do Projeto
 O Extrator de Páginas para Markdown é um aplicativo desktop robusto, construído em Python, projetado para simplificar a captura e organização de conteúdo web. Ele permite aos usuários extrair o conteúdo principal de páginas da web (HTML) e convertê-lo automaticamente para o formato Markdown (.md), pronto para ser salvo localmente em seu computador.
 
 Com uma interface gráfica intuitiva, mesmo usuários sem conhecimento técnico podem navegar e utilizar a ferramenta com facilidade, tornando a transformação de páginas web em documentos Markdown uma tarefa rápida e eficiente.
 
-✨ Funcionalidades Principais
+## ✨ Funcionalidades Principais
 Interface Gráfica (GUI) Intuitiva: Desenvolvida com Tkinter, oferece uma experiência de usuário simples e amigável.
 Extração Múltipla de URLs: Aceita várias URLs simultaneamente, bastando inseri-las uma por linha no campo de entrada.
 Limpeza Inteligente de Conteúdo: Remove automaticamente elementos irrelevantes de páginas web, como <header>, <footer>, <nav>, <script> e <style>, focando no conteúdo essencial.
@@ -15,7 +15,7 @@ Seleção de Pasta de Destino: Permite ao usuário escolher facilmente a pasta o
 Feedback de Processamento: Fornece indicações claras de sucesso ou erro ao final de cada extração, mantendo o usuário informado.
 Histórico de Extrações da Sessão: Acompanha as extrações realizadas durante a sessão atual, permitindo revisitar URLs e caminhos de arquivo.
 
-🚀 Tecnologias Utilizadas
+## 🚀 Tecnologias Utilizadas
 Este projeto foi construído utilizando as seguintes tecnologias e bibliotecas Python:
 
 Python 3.13: Linguagem de programação principal.
@@ -26,7 +26,7 @@ Tkinter: Framework padrão do Python para criação de interfaces gráficas.
 Pillow (PIL): Usada para manipulação de imagens, como carregar a logo do aplicativo.
 Módulos Nativos: re (expressões regulares), urllib.parse (análise de URLs), os (interação com o sistema operacional) e time (controle de tempo).
 
-🛠️ Como Instalar e Rodar
+## 🛠️ Como Instalar e Rodar
 Siga os passos abaixo para configurar e executar o Extrator de Páginas para Markdown em sua máquina:
 
 Pré-requisitos
