@@ -1,7 +1,49 @@
-🧪 Checklist para rodar na sua máquina
-Verificação	OK?
-Windows 10+ instalado	✅
-Google Chrome instalado	✅
-Conexão com internet (1ª vez)	✅
-Arquivo .exe salvo localmente	✅
-Permissão para executar programas	✅
+Pré-requisitos
+Python 3.x (versão 3.13 ou superior recomendada).
+ChromeDriver: O Selenium WebDriver exige que você tenha o ChromeDriver compatível com a sua versão do Google Chrome instalado e acessível no seu PATH do sistema, ou no mesmo diretório do script. Você pode baixá-lo aqui.
+Instalação
+Clone o Repositório (ou baixe o ZIP):
+Bash
+
+git clone https://github.com/SEU_USUARIO/SEU_REPOSITORIO.git
+cd SEU_REPOSITORIO
+Crie e Ative um Ambiente Virtual (recomendado):
+Bash
+
+python -m venv venv
+# No Windows:
+.\venv\Scripts\activate
+# No macOS/Linux:
+source venv/bin/activate
+Instale as Dependências:
+Bash
+
+pip install -r requirements.txt
+(Você precisará criar um arquivo requirements.txt com as dependências listadas abaixo)
+Conteúdo para requirements.txt
+selenium
+beautifulsoup4
+markdownify
+Pillow
+Executando o Aplicativo
+Coloque a Logo (Opcional): Se você deseja usar sua logo personalizada, certifique-se de que o arquivo conversu_logo.png esteja na mesma pasta do script principal, e atualize a variável CAMINHO_LOGO_PERSONALIZADA no código, se necessário.
+Execute o Script:
+Bash
+
+python import.py
+
+📸 Exemplo de Uso
+O usuário inicia o aplicativo.
+No campo de entrada, cola uma ou várias URLs (uma por linha).
+Clica no botão "Extrair para Markdown".
+É solicitada a escolha de uma pasta de destino para salvar os arquivos.
+O programa renderiza cada página, extrai o conteúdo principal, limpa os elementos irrelevantes e salva o resultado em arquivos .md na pasta escolhida.
+Ao final, uma mensagem de sucesso ou erro é exibida, e o usuário pode acessar o histórico de extrações da sessão.
+O que foi melhorado:
+Estrutura Clara: Uso de títulos e subtítulos para organizar as informações, facilitando a leitura.
+Seções Padrão de README: Adição de "Como Instalar e Rodar" com subseções de "Pré-requisitos" e "Instalação", e a sugestão de um requirements.txt.
+Mais Detalhes: Explicado um pouco mais sobre o papel de cada tecnologia (ex: Selenium para JavaScript, BeautifulSoup para HTML).
+Chamada para Ação: Instruções claras sobre como rodar o aplicativo.
+Polimento da Linguagem: Ajustes de vocabulário para um tom mais profissional e descritivo.
+Destaque: Uso de negritos para realçar termos-chave.
+Lembre-se de substituir SEU_USUARIO e SEU_REPOSITORIO no link de clonagem e também seu_script_principal.py pelo nome real do seu arquivo principal!
