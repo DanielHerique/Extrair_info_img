@@ -7,7 +7,7 @@ from markdownify import markdownify as md
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import tkinter as tk
-from tkinter import messagebox, scrolledtext, filedialog
+from tkinter import messagebox, filedialog, scrolledtext, ttk
 
 def limpar_url_imagem(src):
     parsed = urlparse(src)
@@ -19,14 +19,14 @@ def limpar_nome_arquivo(titulo):
 def extrair_com_selenium(url):
     try:
         options = Options()
-        # options.add_argument("--headless")  # opcional
+        # options.add_argument("--headless")
         options.add_argument("--disable-gpu")
         options.add_argument("--no-sandbox")
-        options.add_argument("--window-size=1920,1080")
         options.add_argument("--disable-extensions")
         options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.5735.91 Safari/537.36")
 
         driver = webdriver.Chrome(options=options)
+        driver.maximize_window()
         driver.get(url)
         time.sleep(3)
 
@@ -65,7 +65,6 @@ def iniciar_extracao():
         messagebox.showerror("Erro", "Insira pelo menos uma URL válida.")
         return
 
-    # Perguntar onde salvar
     diretorio = filedialog.askdirectory(title="Escolha a pasta para salvar os arquivos Markdown")
     if not diretorio:
         messagebox.showwarning("Cancelado", "Nenhuma pasta foi selecionada.")
@@ -101,19 +100,49 @@ def iniciar_extracao():
     status_label.config(text="✅ Finalizado.")
     botao_extrair.config(state=tk.NORMAL)
 
-# Interface Gráfica
+# ==== Interface Gráfica ====
+
+COR_FUNDO = "#F25C3A"
+COR_BOTAO = "#2C2CB3"
+COR_HOVER = "#1E1EA3"
+COR_TEXTO = "white"
+FONTE_TEXTO = ("Segoe UI", 10)
+FONTE_TITULO = ("Segoe UI", 12, "bold")
+FONTE_RODAPE = ("Segoe UI", 8, "italic")
+COR_CAIXA_TEXTO = "#FFF1E6"
+
 janela = tk.Tk()
 janela.title("Extrator de Páginas para Markdown")
-janela.geometry("600x300")
+janela.geometry("660x400")
+janela.configure(bg=COR_FUNDO)
 
-tk.Label(janela, text="Cole uma ou mais URLs (uma por linha):").pack(pady=10)
-entrada_url = scrolledtext.ScrolledText(janela, width=70, height=8)
-entrada_url.pack()
+style = ttk.Style()
+style.theme_use("default")
+style.configure("TButton", font=FONTE_TEXTO, background=COR_BOTAO,
+                foreground=COR_TEXTO, padding=8, borderwidth=0)
+style.map("TButton", background=[("active", COR_HOVER)])
 
-botao_extrair = tk.Button(janela, text="Extrair para Markdown", command=iniciar_extracao)
-botao_extrair.pack(pady=10)
+tk.Label(janela, text="Cole uma ou mais URLs (uma por linha):",
+         bg=COR_FUNDO, fg="white", font=FONTE_TITULO).pack(pady=(20, 8))
 
-status_label = tk.Label(janela, text="", fg="blue")
+entrada_url = scrolledtext.ScrolledText(janela,
+                                        width=70,
+                                        height=8,
+                                        font=FONTE_TEXTO,
+                                        bd=2,
+                                        relief="flat",
+                                        bg=COR_CAIXA_TEXTO,
+                                        fg="black",
+                                        insertbackground="black")
+entrada_url.pack(padx=24)
+
+botao_extrair = ttk.Button(janela, text="Extrair para Markdown", command=iniciar_extracao)
+botao_extrair.pack(pady=16)
+
+status_label = tk.Label(janela, text="", fg="white", bg=COR_FUNDO, font=("Segoe UI", 9))
 status_label.pack()
+
+tk.Label(janela, text="Criado por Dani_Dev",
+         bg=COR_FUNDO, fg="white", font=FONTE_RODAPE).pack(side="bottom", pady=(20, 8))
 
 janela.mainloop()
