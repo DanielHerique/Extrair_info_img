@@ -1,10 +1,11 @@
-🌐 Extrator de Páginas para Markdown
-📝 Descrição do Projeto
+###🌐 Extrator de Páginas para Markdown
+
+##📝 Descrição do Projeto
 O Extrator de Páginas para Markdown é um aplicativo desktop robusto, construído em Python, projetado para simplificar a captura e organização de conteúdo web. Ele permite aos usuários extrair o conteúdo principal de páginas da web (HTML) e convertê-lo automaticamente para o formato Markdown (.md), pronto para ser salvo localmente em seu computador.
 
 Com uma interface gráfica intuitiva, mesmo usuários sem conhecimento técnico podem navegar e utilizar a ferramenta com facilidade, tornando a transformação de páginas web em documentos Markdown uma tarefa rápida e eficiente.
 
-✨ Funcionalidades Principais
+##✨ Funcionalidades Principais
 Interface Gráfica (GUI) Intuitiva: Desenvolvida com Tkinter, oferece uma experiência de usuário simples e amigável.
 Extração Múltipla de URLs: Aceita várias URLs simultaneamente, bastando inseri-las uma por linha no campo de entrada.
 Limpeza Inteligente de Conteúdo: Remove automaticamente elementos irrelevantes de páginas web, como <header>, <footer>, <nav>, <script> e <style>, focando no conteúdo essencial.
@@ -13,7 +14,8 @@ Correção de Links de Imagens: Ajusta automaticamente os links de imagens para 
 Seleção de Pasta de Destino: Permite ao usuário escolher facilmente a pasta onde os arquivos Markdown gerados serão salvos.
 Feedback de Processamento: Fornece indicações claras de sucesso ou erro ao final de cada extração, mantendo o usuário informado.
 Histórico de Extrações da Sessão: Acompanha as extrações realizadas durante a sessão atual, permitindo revisitar URLs e caminhos de arquivo.
-🚀 Tecnologias Utilizadas
+
+##🚀 Tecnologias Utilizadas
 Este projeto foi construído utilizando as seguintes tecnologias e bibliotecas Python:
 
 Python 3.13: Linguagem de programação principal.
@@ -26,14 +28,14 @@ Módulos Nativos: re (expressões regulares), urllib.parse (análise de URLs), o
 🛠️ Como Instalar e Rodar
 Siga os passos abaixo para configurar e executar o Extrator de Páginas para Markdown em sua máquina:
 
-Pré-requisitos
+##Pré-requisitos
 Python 3.x (versão 3.13 ou superior recomendada).
 ChromeDriver: O Selenium WebDriver exige que você tenha o ChromeDriver compatível com a sua versão do Google Chrome instalado e acessível no seu PATH do sistema, ou no mesmo diretório do script. Você pode baixá-lo aqui.
 Instalação
 Clone o Repositório (ou baixe o ZIP):
 Bash
 
-git clone https://github.com/SEU_USUARIO/SEU_REPOSITORIO.git
+git clone [https://github.com/SEU_USUARIO/SEU_REPOSITORIO.git](https://github.com/DanielHerique/Extrair_info_img)
 cd SEU_REPOSITORIO
 Crie e Ative um Ambiente Virtual (recomendado):
 Bash
@@ -59,19 +61,19 @@ Execute o Script:
 Bash
 
 python seu_script_principal.py
-(Substitua seu_script_principal.py pelo nome do seu arquivo Python principal)
-📸 Exemplo de Uso
+
+##📸 Exemplo de Uso
 O usuário inicia o aplicativo.
 No campo de entrada, cola uma ou várias URLs (uma por linha).
 Clica no botão "Extrair para Markdown".
+![passo1](https://github.com/user-attachments/assets/b67de365-b65f-4cc1-a47e-6ebcd0e16edb)
+
 É solicitada a escolha de uma pasta de destino para salvar os arquivos.
+![passo2](https://github.com/user-attachments/assets/386a919c-4267-4a52-a59f-62919efb50b9)
+
 O programa renderiza cada página, extrai o conteúdo principal, limpa os elementos irrelevantes e salva o resultado em arquivos .md na pasta escolhida.
 Ao final, uma mensagem de sucesso ou erro é exibida, e o usuário pode acessar o histórico de extrações da sessão.
-O que foi melhorado:
-Estrutura Clara: Uso de títulos e subtítulos para organizar as informações, facilitando a leitura.
-Seções Padrão de README: Adição de "Como Instalar e Rodar" com subseções de "Pré-requisitos" e "Instalação", e a sugestão de um requirements.txt.
-Mais Detalhes: Explicado um pouco mais sobre o papel de cada tecnologia (ex: Selenium para JavaScript, BeautifulSoup para HTML).
-Chamada para Ação: Instruções claras sobre como rodar o aplicativo.
-Polimento da Linguagem: Ajustes de vocabulário para um tom mais profissional e descritivo.
-Destaque: Uso de negritos para realçar termos-chave.
-Lembre-se de substituir SEU_USUARIO e SEU_REPOSITORIO no link de clonagem e também seu_script_principal.py pelo nome real do seu arquivo principal!
+![falha](https://github.com/user-attachments/assets/49d30a32-8b7e-45c9-b46d-49c17da58b1a)
+![sucesso](https://github.com/user-attachments/assets/481cfdd3-297e-441c-bd38-bfa5c8444cb2)
+
+
