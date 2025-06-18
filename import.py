@@ -1,7 +1,7 @@
 import os
 import time
 import re
-from urllib.parse import urlparse
+from urllib.parse import urlparse, unquote
 from bs4 import BeautifulSoup
 from markdownify import markdownify as md
 from selenium import webdriver
@@ -9,18 +9,20 @@ from selenium.webdriver.chrome.options import Options
 import tkinter as tk
 from tkinter import messagebox, filedialog, scrolledtext, ttk
 from PIL import Image, ImageTk, ImageDraw
+import requests # <--- NOVA IMPORTAÇÃO
+from pathlib import Path # <--- NOVA IMPORTAÇÃO
 
 # =========================================================
 # CAMINHO DA LOGO PERSONALIZADA (EDITAR AQUI!)
 # Se o caminho abaixo não for válido ou estiver vazio, uma logo padrão será usada.
-CAMINHO_LOGO_PERSONALIZADA = r"C:\Users\danie\OneDrive\Desktop\conversu_logo.png"
+CAMINHO_LOGO_PERSONALIZADA = r"C:\Users\danie\OneDrive\Desktop\appExport\conversu_logo.png"
 # =========================================================
 
 # ==== Definição de Cores e Fontes (Cores Originais Revertidas) ====
-COR_FUNDO = "#F25C3A"  # Laranja vibrante
-COR_BOTAO = "#2C2CB3"  # Azul escuro
-COR_HOVER = "#1E1EA3"  # Azul escuro um pouco mais claro para hover
-COR_TEXTO = "white"    # Branco
+COR_FUNDO = "#F25C3A"   # Laranja vibrante
+COR_BOTAO = "#2C2CB3"   # Azul escuro
+COR_HOVER = "#1E1EA3"   # Azul escuro um pouco mais claro para hover
+COR_TEXTO = "white"     # Branco
 FONTE_TEXTO = ("Segoe UI", 10)
 FONTE_TITULO = ("Segoe UI", 12, "bold")
 FONTE_RODAPE = ("Segoe UI", 8, "italic")
@@ -38,7 +40,33 @@ def limpar_url_imagem(src):
 def limpar_nome_arquivo(titulo):
     return re.sub(r'[\\/*?:"<>|]', "_", titulo.strip())
 
-def extrair_com_selenium(url):
+# --- NOVA FUNÇÃO: Baixar Imagem ---
+def baixar_imagem(url_imagem, diretorio_destino):
+    try:
+        # Pega o nome do arquivo da URL e decodifica para tratar caracteres especiais
+        nome_arquivo = unquote(Path(urlparse(url_imagem).path).name)
+        
+        # Se não for possível extrair um nome de arquivo, gera um genérico
+        if not nome_arquivo or "." not in nome_arquivo:
+            nome_arquivo = f"imagem_{int(time.time())}.png" # Default para PNG
+
+        caminho_completo = os.path.join(diretorio_destino, nome_arquivo)
+
+        response = requests.get(url_imagem, stream=True, timeout=10)
+        response.raise_for_status() # Lança um erro para códigos de status ruins (4xx ou 5xx)
+
+        with open(caminho_completo, 'wb') as file:
+            for chunk in response.iter_content(chunk_size=8192):
+                file.write(chunk)
+        return nome_arquivo # Retorna apenas o nome do arquivo, não o caminho completo
+    except requests.exceptions.RequestException as e:
+        print(f"Erro ao baixar imagem {url_imagem}: {e}")
+        return None
+    except Exception as e:
+        print(f"Erro inesperado ao baixar imagem {url_imagem}: {e}")
+        return None
+
+def extrair_com_selenium(url, diretorio_base_salvar): # <--- Adicionado diretorio_base_salvar
     try:
         options = Options()
         options.add_argument("--headless")
@@ -61,9 +89,56 @@ def extrair_com_selenium(url):
 
         body = soup.body or soup
 
+        # Cria um diretório para as imagens, se ainda não existir
+        nome_pagina_limpo = limpar_nome_arquivo(titulo or "pagina_extraida")
+        diretorio_imagens = os.path.join(diretorio_base_salvar, f"{nome_pagina_limpo}_imagens")
+        os.makedirs(diretorio_imagens, exist_ok=True) # Cria o diretório se não existir
+
         for img in body.find_all("img"):
             src = img.get("src", "")
-            img["src"] = limpar_url_imagem(src)
+            if src:
+                # Verifica se é um link de dados (data URI)
+                if src.startswith("data:image"):
+                    # Não trataremos data URIs como arquivos para download
+                    # Apenas removemos o atributo src para que o markdownify não tente gerar um link inválido
+                    # Ou você pode deixar como está, o markdownify deve ignorar.
+                    # Para este caso, vamos garantir que não seja um link real.
+                    img["src"] = "" # Remove o src para que não seja incluído no markdown
+                    continue
+
+                # Normaliza o URL para pegar a extensão
+                parsed_url = urlparse(src)
+                path_segments = parsed_url.path.split('/')
+                
+                if path_segments and '.' in path_segments[-1]:
+                    ext = path_segments[-1].split('.')[-1].lower()
+                else:
+                    ext = '' # Nenhuma extensão encontrada
+
+                # Lista de extensões de GIF (pode adicionar mais se necessário)
+                gif_extensions = ['gif']
+                
+                # Lista de extensões de imagem estática
+                static_image_extensions = ['jpg', 'jpeg', 'png', 'bmp', 'webp', 'svg']
+
+                if ext in gif_extensions:
+                    # Para GIFs, apenas limpa o URL e mantém o link
+                    img["src"] = limpar_url_imagem(src)
+                elif ext in static_image_extensions:
+                    # Para imagens estáticas, tenta baixar e referenciar localmente
+                    nome_arquivo_baixado = baixar_imagem(limpar_url_imagem(src), diretorio_imagens)
+                    if nome_arquivo_baixado:
+                        # Referencia a imagem localmente no Markdown
+                        img["src"] = os.path.join(f"{nome_pagina_limpo}_imagens", nome_arquivo_baixado).replace("\\", "/") # Garante barras corretas para Markdown
+                    else:
+                        # Se falhar o download, remove o src para não ter link quebrado ou coloca um placeholder
+                        img["src"] = "" # Ou um placeholder como "imagem-nao-disponivel.png"
+                        img["alt"] = img.get("alt", "") + " (imagem não disponível)" # Adiciona info ao alt
+                else:
+                    # Para outros tipos (ou sem extensão reconhecida), mantém o comportamento original ou trata como texto
+                    # Neste caso, vamos manter o comportamento original (limpar URL) ou você pode remover.
+                    img["src"] = limpar_url_imagem(src) # Pode mudar para "" se quiser ignorar
+
 
         markdown = md(str(body), heading_style="atx")
         return titulo, markdown
@@ -133,7 +208,7 @@ def show_input_state():
     progress_bar.grid_forget() # Garante que esteja oculto ao retornar
 
     entrada_url.config(state=tk.NORMAL) # Habilita para poder limpar
-    entrada_url.delete("1.0", tk.END)  # Limpa todo o texto
+    entrada_url.delete("1.0", tk.END)   # Limpa todo o texto
 
     botao_extrair.config(state=tk.NORMAL) # Reabilita o botão "Extrair"
 
@@ -162,8 +237,8 @@ def iniciar_extracao():
         messagebox.showerror("Erro", "Insira pelo menos uma URL válida.")
         return
 
-    diretorio = filedialog.askdirectory(title="Escolha a pasta para salvar os arquivos Markdown")
-    if not diretorio:
+    diretorio_salvar_markdown = filedialog.askdirectory(title="Escolha a pasta para salvar os arquivos Markdown e imagens")
+    if not diretorio_salvar_markdown:
         messagebox.showwarning("Cancelado", "Nenhuma pasta foi selecionada.")
         return
 
@@ -198,12 +273,13 @@ def iniciar_extracao():
         janela.update_idletasks()
 
         time.sleep(1) # Simula um pequeno atraso para UX
-        titulo, resultado = extrair_com_selenium(url)
+        # Passa o diretório base para que extrair_com_selenium possa criar subdiretórios para imagens
+        titulo, resultado = extrair_com_selenium(url, diretorio_salvar_markdown) 
 
         if isinstance(resultado, str) and resultado.startswith("Erro"):
             erros.append(f"❌ {url}\n   Erro: {resultado.replace('Erro: ', '')}")
         else:
-            caminho = salvar_markdown_auto(diretorio, titulo, resultado)
+            caminho = salvar_markdown_auto(diretorio_salvar_markdown, titulo, resultado)
             salvos.append(f"✅ {url}\n   Salvo em: {caminho}")
             # Adiciona ao histórico de extrações
             historico_extracoes.append({'url': url, 'titulo': titulo, 'caminho_arquivo': caminho})
@@ -261,18 +337,18 @@ def mostrar_historico():
     centralizar_janela(historico_window, 600, 400)
 
     label_titulo_historico = tk.Label(historico_window, text="Histórico de Extrações da Sessão:",
-                                      bg=COR_FUNDO, fg=COR_TEXTO, font=FONTE_TITULO)
+                                     bg=COR_FUNDO, fg=COR_TEXTO, font=FONTE_TITULO)
     label_titulo_historico.pack(pady=10)
 
     historico_texto_area = scrolledtext.ScrolledText(historico_window,
-                                                      width=70,
-                                                      height=15,
-                                                      font=FONTE_TEXTO,
-                                                      bd=0,
-                                                      relief="flat",
-                                                      bg=COR_CAIXA_TEXTO,
-                                                      fg="black",
-                                                      wrap=tk.WORD)
+                                                     width=70,
+                                                     height=15,
+                                                     font=FONTE_TEXTO,
+                                                     bd=0,
+                                                     relief="flat",
+                                                     bg=COR_CAIXA_TEXTO,
+                                                     fg="black",
+                                                     wrap=tk.WORD)
     historico_texto_area.pack(padx=20, pady=5, expand=True, fill="both")
     historico_texto_area.config(state=tk.DISABLED) # Desabilita edição
 
@@ -348,7 +424,7 @@ entrada_url = scrolledtext.ScrolledText(frame_conteudo_principal,
 # Vincular eventos de colagem
 entrada_url.bind("<Control-v>", on_paste_event) 
 entrada_url.bind("<Command-v>", on_paste_event) 
-entrada_url.bind("<Button-3>", on_paste_event)  
+entrada_url.bind("<Button-3>", on_paste_event)   
 
 
 botao_extrair = ttk.Button(frame_conteudo_principal, text="Extrair para Markdown", command=iniciar_extracao)
@@ -356,7 +432,7 @@ botao_extrair = ttk.Button(frame_conteudo_principal, text="Extrair para Markdown
 status_label = tk.Label(frame_conteudo_principal, text="", fg=COR_TEXTO, bg=COR_FUNDO, font=("Segoe UI", 9))
 
 progress_bar = ttk.Progressbar(frame_conteudo_principal, orient="horizontal", length=300,
-                               mode="indeterminate", style="green.Horizontal.TProgressbar")
+                                mode="indeterminate", style="green.Horizontal.TProgressbar")
 
 # Área para exibição dos resultados
 label_titulo_resultado = tk.Label(frame_conteudo_principal, text="Resultados da Extração:",
