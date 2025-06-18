@@ -63,6 +63,10 @@ Bash
 
 python seu_script_principal.py
 
+## Só rodar este comando após verificar que o python está instalado
+
+pip install beautifulsoup4 markdownify selenium Pillow requests
+
 ## 📸 Exemplo de Uso
 O usuário inicia o aplicativo.
 No campo de entrada, cola uma ou várias URLs (uma por linha).
