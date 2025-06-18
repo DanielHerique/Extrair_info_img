@@ -36,8 +36,8 @@ Instalação
 Clone o Repositório (ou baixe o ZIP):
 Bash
 
-git clone [https://github.com/SEU_USUARIO/SEU_REPOSITORIO.git](https://github.com/DanielHerique/Extrair_info_img)
-cd SEU_REPOSITORIO
+git clone [https://github.com/DanielHerique/Extrair_info_img](https://github.com/DanielHerique/Extrair_info_img)
+cd Extrair_info_img
 Crie e Ative um Ambiente Virtual (recomendado):
 Bash
 
